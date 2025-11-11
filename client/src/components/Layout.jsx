@@ -24,20 +24,20 @@ const Layout = ({ children }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
-  const menuItems = [
-    { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
-    { path: '/plans', icon: Package, label: 'Subscription Plans' },
-    { path: '/my-subscription', icon: CreditCard, label: 'My Subscription' },
-  ];
-
-  // Add admin menu if user is admin
-  if (user?.role === 'admin') {
-    menuItems.push(
-      { path: '/admin', icon: Shield, label: 'Admin Dashboard' },
-      { path: '/admin/plans', icon: Package, label: 'Manage Plans' },
-      { path: '/admin/users', icon: UserCircle, label: 'Manage Users' }
-    );
-  }
+  // Define menu items based on user role
+  const menuItems = user?.role === 'admin'
+    ? [
+        // Admin-only features
+        { path: '/admin', icon: Shield, label: 'Admin Dashboard' },
+        { path: '/admin/plans', icon: Package, label: 'Manage Plans' },
+        { path: '/admin/users', icon: UserCircle, label: 'Manage Users' },
+      ]
+    : [
+        // User-only features
+        { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
+        { path: '/plans', icon: Package, label: 'Subscription Plans' },
+        { path: '/my-subscription', icon: CreditCard, label: 'My Subscription' },
+      ];
 
   const handleLogout = async () => {
     try {
@@ -66,7 +66,15 @@ const Layout = ({ children }) => {
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 text-transparent bg-clip-text">
                 Subscription Pro
               </h1>
-              <p className="text-sm text-gray-400 mt-1">Management Portal</p>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-sm text-gray-400">Management Portal</p>
+                {user?.role === 'admin' && (
+                  <span className="px-2 py-1 text-xs font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full flex items-center gap-1">
+                    <Shield size={12} />
+                    Admin
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Navigation */}
@@ -104,7 +112,7 @@ const Layout = ({ children }) => {
                   <UserCircle size={24} className="text-blue-400" />
                   <div className="flex-1 text-left">
                     <p className="text-sm font-medium text-white">{user?.name}</p>
-                    <p className="text-xs text-gray-400">{user?.role}</p>
+                    <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
                   </div>
                   <ChevronDown
                     size={16}

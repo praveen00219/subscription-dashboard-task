@@ -20,7 +20,7 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 // Components
 import LoadingSpinner from "./components/LoadingSpinner";
 
-// Protect routes that require authentication
+// Protect routes that require authentication (user-only routes)
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
@@ -30,6 +30,11 @@ const ProtectedRoute = ({ children }) => {
 
   if (!user?.isVerified) {
     return <Navigate to="/verify-email" replace />;
+  }
+
+  // Redirect admin users to admin dashboard
+  if (user?.role === 'admin') {
+    return <Navigate to="/admin" replace />;
   }
 
   return children;
@@ -67,15 +72,24 @@ const AdminRoute = ({ children }) => {
   return children;
 };
 
-// Redirect authenticated users to the home page
+// Redirect authenticated users to the appropriate dashboard
 const RedirectAuthenticatedUser = ({ children }) => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   if (isAuthenticated && user?.isVerified) {
-    return <Navigate to="/" replace />;
+    // Redirect to appropriate dashboard based on role
+    const redirectPath = user?.role === 'admin' ? '/admin' : '/';
+    return <Navigate to={redirectPath} replace />;
   }
 
   return children;
+};
+
+// Component for catch-all route redirect
+const CatchAllRedirect = () => {
+  const { user } = useSelector((state) => state.auth);
+  const redirectPath = user?.role === 'admin' ? '/admin' : '/';
+  return <Navigate to={redirectPath} replace />;
 };
 
 function App() {
@@ -178,8 +192,8 @@ function App() {
           }
         />
 
-        {/* Catch all routes */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* Catch all routes - redirect based on user role */}
+        <Route path="*" element={<CatchAllRedirect />} />
       </Routes>
       <Toaster />
     </div>
