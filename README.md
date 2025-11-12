@@ -2,8 +2,6 @@
 
 A modern, full-stack subscription management application with **Razorpay payment gateway integration**, animated **dark/light theme switching**, and comprehensive admin controls. Built with React.js (Frontend) and Node.js/Express.js (Backend) featuring JWT authentication and secure payment processing.
 
-## 📸 Screenshots
-
 ### Dark Mode (Default)
 - Beautiful gradient backgrounds with glass-morphism effects
 - Smooth animations and modern UI
@@ -53,64 +51,67 @@ npm run dev
 # 7. Test payment with Razorpay test card
 # Card: 4111 1111 1111 1111, CVV: 123, Expiry: 12/25
 ```
+## Admin Credentials:
+- **Email**: praveen2192000@gmail.com
+- **Password**: Test@123
 
 ## 🚀 Features
 
 ### 🎨 UI/UX Features
-- ✅ **Animated Dark/Light Theme Toggle** with smooth transitions
-- ✅ **Theme Persistence** - Saves user preference to localStorage
-- ✅ **Glass-morphism Design** - Modern frosted glass effects
-- ✅ **Responsive Layout** - Mobile, tablet, and desktop support
-- ✅ **Smooth Animations** - Powered by Framer Motion
-- ✅ **Sidebar Navigation** - Collapsible with role-based menu items
-- ✅ **Loading States** - Beautiful loading spinners and indicators
-- ✅ **Toast Notifications** - Real-time feedback for all actions
+-  **Animated Dark/Light Theme Toggle** with smooth transitions
+-  **Theme Persistence** - Saves user preference to localStorage
+-  **Glass-morphism Design** - Modern frosted glass effects
+-  **Responsive Layout** - Mobile, tablet, and desktop support
+-  **Smooth Animations** - Powered by Framer Motion
+-  **Sidebar Navigation** - Collapsible with role-based menu items
+-  **Loading States** - Beautiful loading spinners and indicators
+-  **Toast Notifications** - Real-time feedback for all actions
 
 ### 🔐 Authentication & Security
-- ✅ User Registration & Login with validation
-- ✅ Email Verification with 6-digit code
-- ✅ Forgot Password & Reset Password flow
-- ✅ JWT Access Token (15min) + Refresh Token (7 days)
-- ✅ Token rotation on refresh
-- ✅ HTTP-only cookies for refresh tokens
-- ✅ Role-based access control (User & Admin)
-- ✅ Email verification middleware
-- ✅ Protected routes and authorization
+-  User Registration & Login with validation
+-  Email Verification with 6-digit code
+-  Forgot Password & Reset Password flow
+-  JWT Access Token (15min) + Refresh Token (7 days)
+-  Token rotation on refresh
+-  HTTP-only cookies for refresh tokens
+-  Role-based access control (User & Admin)
+-  Email verification middleware
+-  Protected routes and authorization
 
 ### 💳 Payment Integration
-- ✅ **Razorpay Payment Gateway** integration
-- ✅ Test mode for safe development
-- ✅ Secure payment order creation
-- ✅ Payment signature verification (HMAC SHA256)
-- ✅ Payment success/failure handling
-- ✅ Transaction logging and tracking
-- ✅ Support for credit/debit cards, UPI, netbanking
-- ✅ Automatic subscription activation after payment
-- ✅ Payment receipt generation
+-  **Razorpay Payment Gateway** integration
+-  Test mode for safe development
+-  Secure payment order creation
+-  Payment signature verification (HMAC SHA256)
+-  Payment success/failure handling
+-  Transaction logging and tracking
+-  Support for credit/debit cards, UPI, netbanking
+-  Automatic subscription activation after payment
+-  Payment receipt generation
 
 ### 👤 User Features
-- ✅ View available subscription plans with pricing
-- ✅ **Subscribe to plans via Razorpay payment**
-- ✅ View current subscription status
-- ✅ Cancel active subscription
-- ✅ Renew expired subscriptions
-- ✅ Dashboard with subscription overview
-- ✅ Subscription history
-- ✅ Plan comparison with features
-- ✅ Days remaining counter
-- ✅ Email notifications on subscription changes
+-  View available subscription plans with pricing
+-  **Subscribe to plans via Razorpay payment**
+-  View current subscription status
+-  Cancel active subscription
+-  Renew expired subscriptions
+-  Dashboard with subscription overview
+-  Subscription history
+-  Plan comparison with features
+-  Days remaining counter
+-  Email notifications on subscription changes
 
 ### 👨‍💼 Admin Features
-- ✅ Admin dashboard with real-time statistics
-- ✅ **User Growth Chart** - Last 7 days analytics
-- ✅ **Recent Activity Feed** - Live subscription updates
-- ✅ Create, update, delete subscription plans
-- ✅ View all users (excluding admins from user list)
-- ✅ User search and filtering
-- ✅ View subscription status breakdown
-- ✅ Revenue tracking and analytics
-- ✅ Plan management with validation
-- ✅ Protected admin routes
+-  Admin dashboard with real-time statistics
+-  **User Growth Chart** - Last 7 days analytics
+-  **Recent Activity Feed** - Live subscription updates
+-  Create, update, delete subscription plans
+-  View all users (excluding admins from user list)
+-  User search and filtering
+-  View subscription status breakdown
+-  Revenue tracking and analytics
+-  Plan management with validation
+-  Protected admin routes
 
 ## 🛠️ Tech Stack
 
@@ -440,11 +441,11 @@ db.users.updateOne(
 4. Update `EMAIL_USER` with your Gmail address
 
 ### Email Templates:
-- ✅ Email verification code
-- ✅ Password reset link
-- ✅ Subscription confirmation
-- ✅ Subscription cancellation
-- ✅ Payment success notification
+-  Email verification code
+-  Password reset link
+-  Subscription confirmation
+-  Subscription cancellation
+-  Payment success notification
 
 ## 🎨 UI/UX Design
 
@@ -526,35 +527,6 @@ db.users.updateOne(
    - Search users by name/email
    - Filter by role
    - View subscription status
-
-### Payment Testing (Razorpay Test Mode):
-
-**Successful Payment:**
-```
-Card Number: 4111 1111 1111 1111
-CVV: 123
-Expiry: 12/25
-Name: Test User
-```
-
-**Failed Payment:**
-```
-Card Number: 4000 0000 0000 0002
-CVV: 123
-Expiry: 12/25
-```
-
-**UPI Test:**
-```
-UPI ID: success@razorpay
-```
-
-**International Card:**
-```
-Card Number: 5104 0600 0000 0008
-CVV: 123
-Expiry: 12/25
-```
 
 ## 📦 Deployment
 
@@ -690,16 +662,16 @@ fetch('http://localhost:5000/api/payments/key')
 
 ## 🔒 Security Features
 
-- ✅ Password hashing with bcrypt (salt rounds: 10)
-- ✅ JWT token with expiration
-- ✅ HTTP-only cookies for refresh tokens
-- ✅ CSRF protection via cookies
-- ✅ Payment signature verification (HMAC SHA256)
-- ✅ Input validation and sanitization
-- ✅ Role-based access control
-- ✅ Email verification requirement
-- ✅ Secure password reset flow
-- ✅ Protected API endpoints
+- Password hashing with bcrypt (salt rounds: 10)
+- JWT token with expiration
+- HTTP-only cookies for refresh tokens
+- CSRF protection via cookies
+- Payment signature verification (HMAC SHA256)
+- Input validation and sanitization
+- Role-based access control
+- Email verification requirement
+- Secure password reset flow
+- Protected API endpoints
 
 ## 🎯 Project Highlights
 
@@ -754,29 +726,6 @@ MIT License - Feel free to use this project as a template for your own work.
 - MongoDB for database
 - Framer Motion for animations
 - TailwindCSS for styling
-
-## 📞 Support
-
-For issues or questions:
-- Check troubleshooting section above
-- Review error logs in browser console and server terminal
-- Razorpay documentation: https://razorpay.com/docs/
-
-## 🎉 What's Next?
-
-Potential enhancements:
-- [ ] Webhooks for payment updates
-- [ ] Email templates with HTML
-- [ ] Payment receipts (PDF)
-- [ ] Subscription analytics for users
-- [ ] Mobile app (React Native)
-- [ ] Multiple payment gateways
-- [ ] Promo codes and discounts
-- [ ] Team/organization subscriptions
-- [ ] API rate limiting
-- [ ] Comprehensive logging system
-
----
 
 **Built with ❤️ using React, Node.js, MongoDB, and Razorpay**
 
