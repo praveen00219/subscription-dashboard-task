@@ -87,7 +87,16 @@ const RedirectAuthenticatedUser = ({ children }) => {
 
 // Component for catch-all route redirect
 const CatchAllRedirect = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  // if (!user?.isVerified) {
+  //   return <Navigate to="/verify-email" replace />;
+  // }
+  
   const redirectPath = user?.role === 'admin' ? '/admin' : '/';
   return <Navigate to={redirectPath} replace />;
 };

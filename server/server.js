@@ -17,10 +17,33 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+// CORS configuration
+const allowedOrigins = [
+  'https://subscription-dashboard-task.onrender.com',
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://localhost:5174', // Alternative Vite port
+];
+
+// Add CLIENT_URL from env if it exists
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
+
 app.use(cors({
-  // origin: process.env.CLIENT_URL || 'http://localhost:3000',
-  origin: "https://subscription-dashboard-task.onrender.com",
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(express.json());
