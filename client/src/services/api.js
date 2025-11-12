@@ -4,7 +4,7 @@ import axios from 'axios';
 //   ? 'http://localhost:5000/api'
 //   : '/api';
 
-const API_URL = "https://backend-subscription-dashboard-task.onrender.com"
+const API_URL = "https://backend-subscription-dashboard-task.onrender.com/api"
 
 const api = axios.create({
   baseURL: API_URL,
