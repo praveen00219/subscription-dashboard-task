@@ -92,15 +92,12 @@ export const getDashboardStats = async (req, res) => {
 // @access  Private/Admin
 export const getAllUsers = async (req, res) => {
   try {
+    // Get all users without trying to populate subscription (it's not in the User schema)
     const users = await User.find()
       .select('-password')
-      .populate({
-        path: 'subscription',
-        populate: { path: 'plan' },
-      })
       .sort({ createdAt: -1 });
 
-    // Manually populate subscription for each user
+    // Manually populate subscription for each user from UserSubscription collection
     const usersWithSubscriptions = await Promise.all(
       users.map(async (user) => {
         const subscription = await UserSubscription.findOne({

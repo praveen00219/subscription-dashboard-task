@@ -218,16 +218,12 @@ Create some subscription plans via admin panel and test:
 
 ### Backend (Node.js)
 Deploy to platforms like:
-- Heroku
-- Railway
 - Render
-- DigitalOcean
 
 ### Frontend (React)
 Deploy to platforms like:
-- Vercel
+- Render
 - Netlify
-- Cloudflare Pages
 
 ### Database
 - MongoDB Atlas (cloud)

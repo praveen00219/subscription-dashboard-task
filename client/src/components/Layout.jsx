@@ -11,14 +11,18 @@ import {
   UserCircle,
   ChevronDown,
   Shield,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../store/slices/authSlice';
 import toast from 'react-hot-toast';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -50,7 +54,11 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-blue-900 to-emerald-900">
+    <div className={`min-h-screen w-full transition-colors duration-500 ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-gray-900 via-blue-900 to-emerald-900' 
+        : 'bg-gradient-to-br from-gray-50 via-blue-50 to-emerald-50'
+    }`}>
       {/* Sidebar */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -59,15 +67,23 @@ const Layout = ({ children }) => {
             animate={{ x: 0 }}
             exit={{ x: -300 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed left-0 top-0 h-full w-64 bg-gray-900/95 backdrop-blur-lg border-r border-gray-700/50 z-50 flex flex-col"
+            className={`fixed left-0 top-0 h-full w-64 backdrop-blur-lg border-r z-50 flex flex-col transition-colors duration-500 ${
+              isDarkMode 
+                ? 'bg-gray-900/95 border-gray-700/50' 
+                : 'bg-white/95 border-gray-200/50 shadow-xl'
+            }`}
           >
             {/* Logo */}
-            <div className="p-6 border-b border-gray-700/50">
+            <div className={`p-6 border-b transition-colors duration-500 ${
+              isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'
+            }`}>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 text-transparent bg-clip-text">
                 Subscription Pro
               </h1>
               <div className="flex items-center justify-between mt-2">
-                <p className="text-sm text-gray-400">Management Portal</p>
+                <p className={`text-sm transition-colors duration-500 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>Management Portal</p>
                 {user?.role === 'admin' && (
                   <span className="px-2 py-1 text-xs font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full flex items-center gap-1">
                     <Shield size={12} />
@@ -88,10 +104,12 @@ const Layout = ({ children }) => {
                     <Link
                       key={item.path}
                       to={item.path}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
                         isActive
                           ? 'bg-gradient-to-r from-blue-600 to-emerald-600 text-white shadow-lg'
-                          : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
+                          : isDarkMode
+                          ? 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
+                          : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                       }`}
                     >
                       <Icon size={20} />
@@ -102,23 +120,70 @@ const Layout = ({ children }) => {
               </div>
             </nav>
 
+            {/* Theme Toggle */}
+            <div className={`p-4 border-t transition-colors duration-500 ${
+              isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'
+            }`}>
+              <button
+                onClick={toggleTheme}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-300 ${
+                  isDarkMode 
+                    ? 'bg-gray-800/50 hover:bg-gray-800' 
+                    : 'bg-gray-100 hover:bg-gray-200'
+                }`}
+              >
+                <span className={`text-sm font-medium transition-colors duration-300 ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                }`}>
+                  {isDarkMode ? 'Dark Mode' : 'Light Mode'}
+                </span>
+                <motion.div
+                  initial={false}
+                  animate={{
+                    rotate: isDarkMode ? 0 : 180,
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  className={`p-2 rounded-full transition-colors duration-300 ${
+                    isDarkMode 
+                      ? 'bg-blue-600/20 text-blue-400' 
+                      : 'bg-yellow-400/20 text-yellow-600'
+                  }`}
+                >
+                  {isDarkMode ? <Moon size={18} /> : <Sun size={18} />}
+                </motion.div>
+              </button>
+            </div>
+
             {/* User Profile */}
-            <div className="p-4 border-t border-gray-700/50">
+            <div className={`p-4 border-t transition-colors duration-500 ${
+              isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'
+            }`}>
               <div className="relative">
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors"
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+                    isDarkMode 
+                      ? 'bg-gray-800/50 hover:bg-gray-800' 
+                      : 'bg-gray-100 hover:bg-gray-200'
+                  }`}
                 >
-                  <UserCircle size={24} className="text-blue-400" />
+                  <UserCircle size={24} className={`transition-colors duration-300 ${
+                    isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                  }`} />
                   <div className="flex-1 text-left">
-                    <p className="text-sm font-medium text-white">{user?.name}</p>
-                    <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
+                    <p className={`text-sm font-medium transition-colors duration-300 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>{user?.name}</p>
+                    <p className={`text-xs capitalize transition-colors duration-300 ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>{user?.role}</p>
                   </div>
                   <ChevronDown
                     size={16}
-                    className={`text-gray-400 transition-transform ${
-                      profileOpen ? 'rotate-180' : ''
-                    }`}
+                    className={`transition-all duration-300 ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    } ${profileOpen ? 'rotate-180' : ''}`}
                   />
                 </button>
 
@@ -128,11 +193,19 @@ const Layout = ({ children }) => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute bottom-full left-0 right-0 mb-2 bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden"
+                      className={`absolute bottom-full left-0 right-0 mb-2 rounded-lg shadow-xl border overflow-hidden transition-colors duration-300 ${
+                        isDarkMode 
+                          ? 'bg-gray-800 border-gray-700' 
+                          : 'bg-white border-gray-200'
+                      }`}
                     >
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-left text-red-400 hover:bg-gray-700 transition-colors"
+                        className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-300 ${
+                          isDarkMode 
+                            ? 'text-red-400 hover:bg-gray-700' 
+                            : 'text-red-600 hover:bg-red-50'
+                        }`}
                       >
                         <LogOut size={18} />
                         <span className="text-sm">Logout</span>
@@ -153,19 +226,31 @@ const Layout = ({ children }) => {
         }`}
       >
         {/* Header */}
-        <header className="bg-gray-900/50 backdrop-blur-lg border-b border-gray-700/50 sticky top-0 z-40">
+        <header className={`backdrop-blur-lg border-b sticky top-0 z-40 transition-colors duration-500 ${
+          isDarkMode 
+            ? 'bg-gray-900/50 border-gray-700/50' 
+            : 'bg-white/50 border-gray-200/50'
+        }`}>
           <div className="px-6 py-4 flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors"
+              className={`p-2 rounded-lg transition-colors duration-300 ${
+                isDarkMode 
+                  ? 'bg-gray-800/50 hover:bg-gray-800 text-white' 
+                  : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+              }`}
             >
               {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
             <div className="flex items-center gap-4">
               <div className="text-right">
-                <p className="text-sm font-medium text-white">{user?.name}</p>
-                <p className="text-xs text-gray-400">{user?.email}</p>
+                <p className={`text-sm font-medium transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>{user?.name}</p>
+                <p className={`text-xs transition-colors duration-300 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>{user?.email}</p>
               </div>
             </div>
           </div>

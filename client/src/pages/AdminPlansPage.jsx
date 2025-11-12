@@ -10,8 +10,9 @@ import {
   deletePlan,
 } from '../store/slices/adminSlice';
 import toast from 'react-hot-toast';
+import { useTheme } from '../contexts/ThemeContext';
 
-const PlanFormModal = ({ plan, onClose, onSubmit, isLoading }) => {
+const PlanFormModal = ({ plan, onClose, onSubmit, isLoading, isDarkMode }) => {
   const [formData, setFormData] = useState({
     name: plan?.name || '',
     description: plan?.description || '',
@@ -35,38 +36,60 @@ const PlanFormModal = ({ plan, onClose, onSubmit, isLoading }) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-gray-800 rounded-xl p-6 max-w-2xl w-full border border-gray-700 max-h-[90vh] overflow-y-auto"
+        className={`rounded-xl p-6 max-w-2xl w-full border max-h-[90vh] overflow-y-auto transition-colors duration-300 ${
+          isDarkMode 
+            ? 'bg-gray-800 border-gray-700' 
+            : 'bg-white border-gray-200'
+        }`}
       >
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-white">
+          <h3 className={`text-2xl font-bold transition-colors duration-300 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
             {plan ? 'Edit Plan' : 'Create New Plan'}
           </h3>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-700 rounded-lg transition"
+            className={`p-2 rounded-lg transition-colors duration-300 ${
+              isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+            }`}
           >
-            <X size={20} className="text-gray-400" />
+            <X size={20} className={`transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`} />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Plan Name</label>
+            <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>Plan Name</label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
+              className={`w-full px-4 py-2 rounded-lg border focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition-colors duration-300 ${
+                isDarkMode 
+                  ? 'bg-gray-700 text-white border-gray-600' 
+                  : 'bg-white text-gray-900 border-gray-300'
+              }`}
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
+            <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>Description</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+              className={`w-full px-4 py-2 rounded-lg border focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none resize-none transition-colors duration-300 ${
+                isDarkMode 
+                  ? 'bg-gray-700 text-white border-gray-600' 
+                  : 'bg-white text-gray-900 border-gray-300'
+              }`}
               rows="3"
               required
             />
@@ -74,23 +97,35 @@ const PlanFormModal = ({ plan, onClose, onSubmit, isLoading }) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Price ($)</label>
+              <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>Price ($)</label>
               <input
                 type="number"
                 step="0.01"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
+                className={`w-full px-4 py-2 rounded-lg border focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition-colors duration-300 ${
+                  isDarkMode 
+                    ? 'bg-gray-700 text-white border-gray-600' 
+                    : 'bg-white text-gray-900 border-gray-300'
+                }`}
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Duration</label>
+              <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>Duration</label>
               <select
                 value={formData.duration}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
+                className={`w-full px-4 py-2 rounded-lg border focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition-colors duration-300 ${
+                  isDarkMode 
+                    ? 'bg-gray-700 text-white border-gray-600' 
+                    : 'bg-white text-gray-900 border-gray-300'
+                }`}
               >
                 <option value="month">Month</option>
                 <option value="year">Year</option>
@@ -99,13 +134,19 @@ const PlanFormModal = ({ plan, onClose, onSubmit, isLoading }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               Features (one per line)
             </label>
             <textarea
               value={formData.features}
               onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-              className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+              className={`w-full px-4 py-2 rounded-lg border focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none resize-none transition-colors duration-300 ${
+                isDarkMode 
+                  ? 'bg-gray-700 text-white border-gray-600' 
+                  : 'bg-white text-gray-900 border-gray-300'
+              }`}
               rows="5"
               placeholder="Feature 1&#10;Feature 2&#10;Feature 3"
               required
@@ -116,7 +157,11 @@ const PlanFormModal = ({ plan, onClose, onSubmit, isLoading }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-3 px-4 bg-gray-700 text-white font-bold rounded-lg hover:bg-gray-600 transition"
+              className={`flex-1 py-3 px-4 font-bold rounded-lg transition-colors duration-300 ${
+                isDarkMode 
+                  ? 'bg-gray-700 text-white hover:bg-gray-600' 
+                  : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
+              }`}
             >
               Cancel
             </button>
@@ -139,6 +184,7 @@ const AdminPlansPage = () => {
   const { plans, isLoading } = useSelector((state) => state.admin);
   const [showModal, setShowModal] = useState(false);
   const [editingPlan, setEditingPlan] = useState(null);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     dispatch(fetchAllPlans());
@@ -188,7 +234,9 @@ const AdminPlansPage = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 text-transparent bg-clip-text mb-2">
               Manage Plans
             </h1>
-            <p className="text-gray-400">Create and manage subscription plans</p>
+            <p className={`transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>Create and manage subscription plans</p>
           </div>
           <button
             onClick={() => {
@@ -209,21 +257,35 @@ const AdminPlansPage = () => {
               key={plan._id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700/50 hover:border-gray-600 transition-all"
+              className={`backdrop-blur-lg rounded-xl p-6 border transition-all duration-300 ${
+                isDarkMode 
+                  ? 'bg-gray-800/50 border-gray-700/50 hover:border-gray-600' 
+                  : 'bg-white/80 border-gray-200/50 hover:border-gray-300 shadow-lg'
+              }`}
             >
               <div className="mb-4">
-                <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                <p className="text-gray-400 text-sm">{plan.description}</p>
+                <h3 className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>{plan.name}</h3>
+                <p className={`text-sm transition-colors duration-300 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>{plan.description}</p>
               </div>
 
               <div className="mb-4">
-                <span className="text-4xl font-bold text-white">${plan.price}</span>
-                <span className="text-gray-400 ml-2">/{plan.duration}</span>
+                <span className={`text-4xl font-bold transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>${plan.price}</span>
+                <span className={`ml-2 transition-colors duration-300 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>/{plan.duration}</span>
               </div>
 
               <ul className="space-y-2 mb-6">
                 {plan.features?.map((feature, index) => (
-                  <li key={index} className="text-gray-300 text-sm flex items-start gap-2">
+                  <li key={index} className={`text-sm flex items-start gap-2 transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                     <span className="text-green-400 mt-1">•</span>
                     <span>{feature}</span>
                   </li>
@@ -255,7 +317,9 @@ const AdminPlansPage = () => {
 
         {plans.length === 0 && !isLoading && (
           <div className="text-center py-12">
-            <p className="text-gray-400 text-lg">No plans available. Create one to get started!</p>
+            <p className={`text-lg transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>No plans available. Create one to get started!</p>
           </div>
         )}
 
@@ -269,6 +333,7 @@ const AdminPlansPage = () => {
             }}
             onSubmit={editingPlan ? handleUpdatePlan : handleCreatePlan}
             isLoading={isLoading}
+            isDarkMode={isDarkMode}
           />
         )}
       </div>

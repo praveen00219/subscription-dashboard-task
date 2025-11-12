@@ -5,13 +5,16 @@ import { Provider } from 'react-redux';
 import App from './App.jsx';
 import './index.css';
 import { store } from './store';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
 );

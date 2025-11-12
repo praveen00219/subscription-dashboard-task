@@ -17,12 +17,14 @@ import {
 import LoadingSpinner from '../components/LoadingSpinner';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 
 const MySubscriptionPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userSubscription, isLoading } = useSelector((state) => state.subscription);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     dispatch(fetchUserSubscription());
@@ -51,9 +53,15 @@ const MySubscriptionPage = () => {
     return (
       <Layout>
         <div className="flex flex-col items-center justify-center min-h-[60vh]">
-          <XCircle size={64} className="text-gray-500 mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">No Active Subscription</h2>
-          <p className="text-gray-400 mb-6">You don&apos;t have an active subscription</p>
+          <XCircle size={64} className={`mb-4 transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-500' : 'text-gray-400'
+          }`} />
+          <h2 className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>No Active Subscription</h2>
+          <p className={`mb-6 transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>You don&apos;t have an active subscription</p>
           <button
             onClick={() => navigate('/plans')}
             className="py-3 px-6 bg-gradient-to-r from-blue-500 to-emerald-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-emerald-700 transition"
@@ -91,17 +99,25 @@ const MySubscriptionPage = () => {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 text-transparent bg-clip-text mb-2">
             My Subscription
           </h1>
-          <p className="text-gray-400">Manage your subscription and billing</p>
+          <p className={`transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>Manage your subscription and billing</p>
         </div>
 
         {/* Status Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700/50"
+          className={`backdrop-blur-lg rounded-xl p-6 border transition-all duration-300 ${
+            isDarkMode 
+              ? 'bg-gray-800/50 border-gray-700/50' 
+              : 'bg-white/80 border-gray-200/50 shadow-lg'
+          }`}
         >
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white">Subscription Status</h2>
+            <h2 className={`text-2xl font-bold transition-colors duration-300 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>Subscription Status</h2>
             <span
               className={`px-4 py-2 rounded-full font-semibold ${getStatusColor(
                 userSubscription.status
@@ -125,53 +141,87 @@ const MySubscriptionPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Plan Details */}
-            <div className="p-6 bg-gray-700/30 rounded-lg">
+            <div className={`p-6 rounded-lg transition-colors duration-300 ${
+              isDarkMode ? 'bg-gray-700/30' : 'bg-gray-100/80'
+            }`}>
               <div className="flex items-center gap-3 mb-4">
-                <CreditCard size={24} className="text-blue-400" />
-                <h3 className="text-xl font-semibold text-white">Plan Details</h3>
+                <CreditCard size={24} className={`transition-colors duration-300 ${
+                  isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                }`} />
+                <h3 className={`text-xl font-semibold transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>Plan Details</h3>
               </div>
               <div className="space-y-3">
                 <div>
-                  <p className="text-gray-400 text-sm">Plan Name</p>
-                  <p className="text-white font-semibold text-lg">
+                  <p className={`text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>Plan Name</p>
+                  <p className={`font-semibold text-lg transition-colors duration-300 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {userSubscription.plan?.name}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">Price</p>
-                  <p className="text-white font-semibold">
+                  <p className={`text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>Price</p>
+                  <p className={`font-semibold transition-colors duration-300 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     ${userSubscription.plan?.price}/{userSubscription.plan?.duration}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">Description</p>
-                  <p className="text-white">{userSubscription.plan?.description}</p>
+                  <p className={`text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>Description</p>
+                  <p className={`transition-colors duration-300 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>{userSubscription.plan?.description}</p>
                 </div>
               </div>
             </div>
 
             {/* Billing Details */}
-            <div className="p-6 bg-gray-700/30 rounded-lg">
+            <div className={`p-6 rounded-lg transition-colors duration-300 ${
+              isDarkMode ? 'bg-gray-700/30' : 'bg-gray-100/80'
+            }`}>
               <div className="flex items-center gap-3 mb-4">
                 <Calendar size={24} className="text-emerald-400" />
-                <h3 className="text-xl font-semibold text-white">Billing Details</h3>
+                <h3 className={`text-xl font-semibold transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>Billing Details</h3>
               </div>
               <div className="space-y-3">
                 <div>
-                  <p className="text-gray-400 text-sm">Start Date</p>
-                  <p className="text-white font-semibold">
+                  <p className={`text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>Start Date</p>
+                  <p className={`font-semibold transition-colors duration-300 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {new Date(userSubscription.startDate).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">End Date</p>
-                  <p className="text-white font-semibold">
+                  <p className={`text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>End Date</p>
+                  <p className={`font-semibold transition-colors duration-300 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {new Date(userSubscription.endDate).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">Days Remaining</p>
-                  <p className="text-white font-semibold">{isActive ? daysRemaining : '—'}</p>
+                  <p className={`text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>Days Remaining</p>
+                  <p className={`font-semibold transition-colors duration-300 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>{isActive ? daysRemaining : '—'}</p>
                 </div>
               </div>
             </div>
@@ -183,14 +233,24 @@ const MySubscriptionPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700/50"
+          className={`backdrop-blur-lg rounded-xl p-6 border transition-all duration-300 ${
+            isDarkMode 
+              ? 'bg-gray-800/50 border-gray-700/50' 
+              : 'bg-white/80 border-gray-200/50 shadow-lg'
+          }`}
         >
-          <h2 className="text-2xl font-bold text-white mb-4">Plan Features</h2>
+          <h2 className={`text-2xl font-bold mb-4 transition-colors duration-300 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>Plan Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {userSubscription.plan?.features?.map((feature, index) => (
-              <div key={index} className="flex items-center gap-3 p-3 bg-gray-700/30 rounded-lg">
+              <div key={index} className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-300 ${
+                isDarkMode ? 'bg-gray-700/30' : 'bg-gray-100/80'
+              }`}>
                 <CheckCircle size={20} className="text-green-400 flex-shrink-0" />
-                <span className="text-white">{feature}</span>
+                <span className={`transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>{feature}</span>
               </div>
             ))}
           </div>
@@ -202,9 +262,15 @@ const MySubscriptionPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700/50"
+            className={`backdrop-blur-lg rounded-xl p-6 border transition-all duration-300 ${
+              isDarkMode 
+                ? 'bg-gray-800/50 border-gray-700/50' 
+                : 'bg-white/80 border-gray-200/50 shadow-lg'
+            }`}
           >
-            <h2 className="text-2xl font-bold text-white mb-4">Manage Subscription</h2>
+            <h2 className={`text-2xl font-bold mb-4 transition-colors duration-300 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>Manage Subscription</h2>
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => navigate('/plans')}
@@ -228,17 +294,29 @@ const MySubscriptionPage = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-gray-800 rounded-xl p-6 max-w-md w-full border border-gray-700"
+              className={`rounded-xl p-6 max-w-md w-full border transition-colors duration-300 ${
+                isDarkMode 
+                  ? 'bg-gray-800 border-gray-700' 
+                  : 'bg-white border-gray-200'
+              }`}
             >
-              <h3 className="text-2xl font-bold text-white mb-4">Cancel Subscription?</h3>
-              <p className="text-gray-400 mb-6">
+              <h3 className={`text-2xl font-bold mb-4 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>Cancel Subscription?</h3>
+              <p className={`mb-6 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 Are you sure you want to cancel your subscription? You will lose access to all
                 premium features at the end of your billing period.
               </p>
               <div className="flex gap-4">
                 <button
                   onClick={() => setShowCancelModal(false)}
-                  className="flex-1 py-3 px-4 bg-gray-700 text-white font-bold rounded-lg hover:bg-gray-600 transition"
+                  className={`flex-1 py-3 px-4 font-bold rounded-lg transition-colors duration-300 ${
+                    isDarkMode 
+                      ? 'bg-gray-700 text-white hover:bg-gray-600' 
+                      : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
+                  }`}
                 >
                   Keep Subscription
                 </button>
