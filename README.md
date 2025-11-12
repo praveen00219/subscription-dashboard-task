@@ -55,6 +55,8 @@ npm run dev
 - **Email**: praveen2192000@gmail.com
 - **Password**: Test@123
 
+**Note** - Clone the repo and run the frontend locally. You don't need to run the backend because it requires many environment variables. I have already deployed the backend and configured the frontend to use the deployed API URL.
+
 ## 🚀 Features
 
 ### 🎨 UI/UX Features
@@ -138,69 +140,6 @@ npm run dev
 - **CORS** - Cross-origin resource sharing
 - **Crypto** - Payment signature verification
 
-## 📁 Project Structure
-
-```
-Subscription-Management-Dash/
-├── client/                    # Frontend React application
-│   ├── src/
-│   │   ├── components/        # Reusable components
-│   │   │   ├── Layout.jsx           # Main layout with sidebar & header
-│   │   │   └── LoadingSpinner.jsx   # Loading component
-│   │   ├── contexts/          # React Context providers
-│   │   │   └── ThemeContext.jsx     # Dark/Light theme context
-│   │   ├── pages/             # Page components
-│   │   │   ├── DashboardPage.jsx           # User dashboard
-│   │   │   ├── SubscriptionPlansPage.jsx   # Plans with payment
-│   │   │   ├── MySubscriptionPage.jsx      # Manage subscription
-│   │   │   ├── AdminDashboardPage.jsx      # Admin dashboard
-│   │   │   ├── AdminPlansPage.jsx          # Manage plans
-│   │   │   ├── AdminUsersPage.jsx          # Manage users
-│   │   │   ├── LoginPage.jsx               # Login
-│   │   │   ├── SignUpPage.jsx              # Registration
-│   │   │   ├── EmailVerificationPage.jsx   # Email verify
-│   │   │   ├── ForgotPasswordPage.jsx      # Password reset
-│   │   │   └── ResetPasswordPage.jsx       # New password
-│   │   ├── services/          # API services
-│   │   │   ├── api.js               # Axios instance with interceptors
-│   │   │   └── auth.service.js      # Auth API calls
-│   │   ├── store/             # Redux store & slices
-│   │   │   ├── index.js             # Store configuration
-│   │   │   └── slices/              # Redux slices
-│   │   ├── utils/             # Utility functions
-│   │   │   └── razorpay.js          # Razorpay integration
-│   │   ├── App.jsx            # Main App component
-│   │   └── main.jsx           # Entry point
-│   ├── package.json
-│   └── vite.config.js
-│
-├── server/                    # Backend Node.js application
-│   ├── config/                # Configuration files
-│   │   └── database.js              # MongoDB connection
-│   ├── controllers/           # Route controllers
-│   │   ├── auth.controller.js       # Authentication logic
-│   │   ├── subscription.controller.js  # Subscription logic
-│   │   ├── admin.controller.js      # Admin operations
-│   │   └── payment.controller.js    # Razorpay payment logic
-│   ├── middleware/            # Custom middleware
-│   │   └── auth.middleware.js       # JWT verification
-│   ├── models/                # Mongoose models
-│   │   ├── User.model.js            # User schema
-│   │   ├── SubscriptionPlan.model.js  # Plan schema
-│   │   └── UserSubscription.model.js  # Subscription schema
-│   ├── routes/                # API routes
-│   │   ├── auth.routes.js           # Auth endpoints
-│   │   ├── subscription.routes.js   # Subscription endpoints
-│   │   ├── admin.routes.js          # Admin endpoints
-│   │   └── payment.routes.js        # Payment endpoints
-│   ├── utils/                 # Utility functions
-│   │   ├── jwt.utils.js             # JWT token generation
-│   │   └── email.utils.js           # Email sending
-│   ├── server.js              # Server entry point
-│   └── package.json
-│
-└── README.md                  # This file
-```
 
 ## 🚦 Getting Started
 
@@ -266,43 +205,17 @@ npm run dev
 ```
 Server will run on `http://localhost:5000`
 
-#### 3. Setup Frontend
+#### 3. Setup Frontend & Start the frontend
 
 ```bash
 cd ../client
 npm install
 ```
 
-**Optional: Create `.env` file in client directory (for custom API URL):**
-
-```env
-VITE_API_URL=http://localhost:5000/api
-```
-
-**Start the frontend:**
 ```bash
 npm run dev
 ```
 Frontend will run on `http://localhost:5173`
-
-#### 4. Setup Razorpay (Payment Gateway)
-
-1. **Create Razorpay Account:**
-   - Visit: https://dashboard.razorpay.com/
-   - Sign up for free account
-
-2. **Get Test Keys:**
-   - Switch to **TEST MODE** (toggle in dashboard)
-   - Go to: Settings → API Keys → Generate Test Key
-   - Copy `Key ID` and `Key Secret`
-
-3. **Add to `.env`:**
-   - Paste keys in server `.env` file
-   - Restart server for changes to take effect
-
-4. **Test Payment:**
-   - Use test card: `4111 1111 1111 1111`
-   - CVV: `123`, Expiry: `12/25`
 
 ## 📝 API Endpoints
 
@@ -398,37 +311,14 @@ Frontend will run on `http://localhost:5173`
    - User notified with toast message
    - Can retry payment anytime
 
-## 🎨 Theme System
+   ### Payment Gateway (Production)
 
-### Dark/Light Mode Toggle
-
-The application features a beautiful animated theme toggle:
-
-- **Toggle Button:** Located in sidebar with Sun ☀️ / Moon 🌙 icons
-- **Animation:** Smooth 500ms transitions for all color changes
-- **Persistence:** Theme preference saved to localStorage
-- **Default:** Dark mode (blue-emerald gradient)
-- **Light Mode:** Clean white/gray design with blue accents
-- **Global Coverage:** All pages and components theme-aware
-
-**Theme Switching:**
-- Click theme toggle in sidebar
-- Entire application smoothly transitions
-- Background, cards, text, and borders all adapt
-- Chart colors and table styles adjust
-- Setting persists across sessions
-
-## 👤 Default Admin Account
-
-After setting up, you can create an admin account by:
-1. Registering a new user
-2. Manually updating the user's role in MongoDB:
-```javascript
-db.users.updateOne(
-  { email: "admin@example.com" },
-  { $set: { role: "admin", isVerified: true } }
-)
-```
+When going live:
+1. Switch Razorpay to **LIVE mode**
+2. Generate LIVE API keys
+3. Update `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET`
+4. Complete KYC verification with Razorpay
+5. Test with real small amounts first
 
 ## 📧 Email Configuration
 
@@ -439,239 +329,6 @@ db.users.updateOne(
    - Create password for "Mail"
 3. Use the 16-character password in `EMAIL_PASSWORD` env variable
 4. Update `EMAIL_USER` with your Gmail address
-
-### Email Templates:
--  Email verification code
--  Password reset link
--  Subscription confirmation
--  Subscription cancellation
--  Payment success notification
-
-## 🎨 UI/UX Design
-
-### Design System:
-
-**Dark Mode (Default):**
-- Background: Gradient (gray-900 → blue-900 → emerald-900)
-- Cards: Glass-morphism with gray-800/50 and backdrop blur
-- Text: White primary, gray-400 secondary
-- Borders: Gray-700/50 with soft glow
-
-**Light Mode:**
-- Background: Gradient (gray-50 → blue-50 → emerald-50)
-- Cards: White/80 with shadow effects
-- Text: Gray-900 primary, gray-600 secondary
-- Borders: Gray-200/50 with subtle shadows
-
-**Common Elements:**
-- Smooth 300-500ms color transitions
-- Animated icons (Sun/Moon) with rotation
-- Gradient buttons (blue → emerald)
-- Hover effects and micro-interactions
-- Responsive grid layouts
-- Modern card designs
-
-### Color Palette:
-- Primary: Blue-500 to Emerald-600 (gradient)
-- Success: Green-400
-- Error: Red-600
-- Warning: Yellow-400
-- Info: Blue-400
-- Admin Badge: Purple-600 to Pink-600
-
-## 🧪 Testing
-
-### User Flow Testing:
-
-1. **Registration & Verification:**
-   - Sign up with email
-   - Check inbox for 6-digit code
-   - Verify email
-   - Redirected to dashboard
-
-2. **Subscription Flow:**
-   - Browse plans
-   - Click "Subscribe Now"
-   - Razorpay modal opens
-   - Enter test card: `4111 1111 1111 1111`
-   - Complete payment
-   - Subscription activated
-
-3. **Subscription Management:**
-   - View subscription details
-   - Check days remaining
-   - Cancel subscription
-   - Renew subscription
-
-4. **Theme Testing:**
-   - Toggle dark/light mode in sidebar
-   - Verify all pages update
-   - Refresh page - theme persists
-
-### Admin Flow Testing:
-
-1. **Dashboard:**
-   - View user statistics
-   - Check revenue metrics
-   - View user growth chart
-   - Monitor recent activity
-
-2. **Plan Management:**
-   - Create new plan
-   - Edit existing plan
-   - Delete unused plan
-   - View all plans
-
-3. **User Management:**
-   - View all users (admins hidden)
-   - Search users by name/email
-   - Filter by role
-   - View subscription status
-
-## 📦 Deployment
-
-### Backend (Node.js)
-
-**Recommended Platforms:**
-- **Render** - Free tier available
-- **Railway** - Easy deployment
-- **Heroku** - Classic choice
-- **DigitalOcean App Platform**
-
-**Deployment Steps:**
-1. Push code to GitHub
-2. Connect repository to platform
-3. Add environment variables
-4. Deploy!
-
-**Environment Variables to Set:**
-- All variables from `.env` file
-- Update `CLIENT_URL` to production URL
-- Switch Razorpay to LIVE mode (production)
-
-### Frontend (React)
-
-**Recommended Platforms:**
-- **Vercel** - Optimized for React
-- **Netlify** - Easy deployment
-- **Render** - All-in-one solution
-- **GitHub Pages** - Free for public repos
-
-**Build Command:** `npm run build`
-**Publish Directory:** `dist`
-
-**Environment Variables:**
-- `VITE_API_URL` - Backend API URL
-
-### Database
-
-**MongoDB Options:**
-- **MongoDB Atlas** (Recommended) - Free tier available
-- **Local MongoDB** - Development only
-- **MongoDB Cloud** - Managed service
-
-### Payment Gateway (Production)
-
-When going live:
-1. Switch Razorpay to **LIVE mode**
-2. Generate LIVE API keys
-3. Update `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET`
-4. Complete KYC verification with Razorpay
-5. Test with real small amounts first
-
-## 🐛 Troubleshooting
-
-### Common Issues:
-
-**Issue: "Not authorized, token failed"**
-- **Solution:** Log out and log in again (refreshes token)
-- **Cause:** Token expired or invalid
-
-**Issue: Razorpay modal doesn't open**
-- **Solution:** Check internet connection (script loads from CDN)
-- **Cause:** Razorpay SDK not loaded
-
-**Issue: Payment verification fails**
-- **Solution:** Verify `RAZORPAY_KEY_SECRET` in `.env` is correct
-- **Cause:** Signature mismatch
-
-**Issue: Email not sending**
-- **Solution:** Check Gmail App Password is correct
-- **Cause:** Email credentials invalid
-
-**Issue: "Already have active subscription"**
-- **Solution:** Cancel existing subscription first
-- **Cause:** User can only have one active subscription
-
-**Issue: Admin can't see users**
-- **Solution:** Admins are hidden from user list (by design)
-- **Cause:** Filter excludes admin role
-
-**Issue: Theme doesn't persist**
-- **Solution:** Check localStorage is enabled in browser
-- **Cause:** Browser privacy settings
-
-### Debugging Tips:
-
-**Check Token:**
-```javascript
-// In browser console (F12)
-localStorage.getItem('accessToken')
-```
-
-**Check Razorpay Key:**
-```javascript
-fetch('http://localhost:5000/api/payments/key')
-  .then(r => r.json())
-  .then(d => console.log(d))
-```
-
-**Check Server Logs:**
-- Payment flow logs emoji indicators (🔐, ✅, ❌, 💳)
-- Easy to track in terminal
-
-## 📊 Features Breakdown
-
-### Pages:
-
-**Public Pages:**
-- Login
-- Sign Up
-- Email Verification
-- Forgot Password
-- Reset Password
-
-**User Pages:**
-- Dashboard (subscription overview)
-- Subscription Plans (with payment)
-- My Subscription (manage & cancel)
-
-**Admin Pages:**
-- Admin Dashboard (analytics & stats)
-- Manage Plans (CRUD operations)
-- Manage Users (view & search)
-
-### Components:
-
-- **Layout** - Responsive sidebar, header, theme toggle
-- **ThemeContext** - Global theme state management
-- **LoadingSpinner** - Consistent loading UI
-- **StatCard** - Reusable dashboard cards
-- **PlanCard** - Subscription plan display
-- **Protected Routes** - Auth-based routing
-
-## 🔒 Security Features
-
-- Password hashing with bcrypt (salt rounds: 10)
-- JWT token with expiration
-- HTTP-only cookies for refresh tokens
-- CSRF protection via cookies
-- Payment signature verification (HMAC SHA256)
-- Input validation and sanitization
-- Role-based access control
-- Email verification requirement
-- Secure password reset flow
-- Protected API endpoints
 
 ## 🎯 Project Highlights
 
@@ -705,20 +362,6 @@ fetch('http://localhost:5000/api/payments/key')
    - TailwindCSS 3
    - Framer Motion animations
 
-## 🤝 Contributing
-
-This is an open-source project. Contributions are welcome!
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
-
-## 📄 License
-
-MIT License - Feel free to use this project as a template for your own work.
-
 ## 🙏 Acknowledgments
 
 - Built with modern web technologies
@@ -726,6 +369,12 @@ MIT License - Feel free to use this project as a template for your own work.
 - MongoDB for database
 - Framer Motion for animations
 - TailwindCSS for styling
+
+## Contact 
+
+- Praveen
+- praveen2192000gmail.com
+- [Phone](7297952644) | [LinkedIn](https://www.linkedin.com/in/praveen219) | [Github](https://github.com/praveen00219) | [Portfolio](https://praveen21-portfolio.netlify.app/)
 
 **Built with ❤️ using React, Node.js, MongoDB, and Razorpay**
 
